@@ -1,0 +1,104 @@
+<style lang="scss" src="@/assets/styles/reset.scss"></style>
+
+<script>
+  import wepy from 'wepy';
+  import 'wepy-async-function';
+
+  import logger from '@/plugins/logger';
+
+  // wepy.app 注册一个小程序
+  export default class extends wepy.app {
+    constructor() {
+      super();
+      // https://tencent.github.io/wepy/document.html#/api?id=wepyapp-class
+      this.use('requestfix');// 修复小程序请求并发问题
+      this.use('promisify'); // 小程序原生API都将Promise化
+    }
+    // 参数配置
+    config = {
+      // 设置页面路径
+      pages: [
+        'pages/index/index',
+        'pages/my/index',
+      ],
+      // 设置默认页面的窗口表现
+      window: {
+        navigationBarBackgroundColor: '#000000', // 导航栏背景颜色
+        navigationBarTextStyle: 'white', // 导航栏标题颜色，仅支持 black/white
+        navigationBarTitleText: 'WeAPP Template', // 导航栏标题文字内容
+        navigationStyle: 'default', // 导航栏样式，仅支持 default/custom
+        backgroundColor: '#ffffff', // 窗口的背景色
+        backgroundTextStyle: 'dark', // 下拉背景字体、loading 图的样式，仅支持 dark/light
+        enablePullDownRefresh: false, // 是否开启下拉刷新
+        onReachBottomDistance: 50, // 页面上拉触底事件触发时距页面底部距离，单位为px
+      },
+      // 设置底部 tab 的表现
+      tabBar: {
+        color: '#b4bcc2',
+        selectedColor: '#ff4d65',
+        backgroundColor: '#ffffff',
+        list: [
+          {
+            pagePath: 'pages/index/index',
+            text: '首页',
+            iconPath: 'assets/images/tabbar/tab_btn_home.png',
+            selectedIconPath: 'assets/images/tabbar/tab_btn_home_s.png',
+          },
+          {
+            pagePath: 'pages/my/index',
+            text: '我的',
+            iconPath: 'assets/images/tabbar/tab_btn_my.png',
+            selectedIconPath: 'assets/images/tabbar/tab_btn_my_s.png',
+          },
+        ],
+      },
+      // 设置网络超时时间
+      networkTimeout: {
+        request: 10000,
+        downloadFile: 10000,
+      },
+      // 设置是否开启 debug 模式
+      debug: false,
+    };
+    /* eslint-disable */
+    // 小程序完成初始化, 全局只触发一次
+    onLaunch(options) {
+      // path	String	打开小程序的路径
+      // query	Object	打开小程序的query
+      // scene	Number	打开小程序的场景值
+      // shareTicket	String	shareTicket，详见 获取更多转发信息
+      // referrerInfo	Object	当场景为由从另一个小程序或公众号或App打开时，返回此字段
+      // referrerInfo.appId	String	来源小程序或公众号或App的 appId，详见下方说明
+      // referrerInfo.extraData	Object	来源小程序传过来的数据，scene = 1037或1038时支持
+
+      /* {
+        "path": "pages/index/index",
+        "scene": 1001,
+        "query": {}
+      } */
+      logger.log('onLaunch', options);
+    }
+    onShow(options) {
+      // console.log('onShow', options);
+    }
+    onHide() {
+      // console.log('onHide');
+    }
+    onError(msg) {
+      // console.log('onError', msg);
+    }
+    /* eslint-enable */
+    globalData = {
+      userInfo: null,
+    };
+    async getUserInfo() {
+      await wepy.login();
+      if (this.globalData.userInfo) {
+        return this.globalData.userInfo;
+      }
+      const userInfo = await wepy.getUserInfo();
+      this.globalData.userInfo = userInfo;
+      return userInfo;
+    }
+  }
+</script>

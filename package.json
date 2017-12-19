@@ -1,0 +1,65 @@
+{
+  "name": "weapp-template",
+  "version": "0.0.1",
+  "description": "小程序模板",
+  "main": "dist/app.js",
+  "scripts": {
+    "bootstrap": "yarn || npm i",
+    "build": "npm run bootstrap && cross-env NODE_ENV=production wepy build --no-cache",
+    "cz": "git-cz",
+    "dev": "npm run bootstrap && cross-env NODE_ENV=development wepy build --watch",
+    "precommit": "lint-staged",
+    "lint": "eslint --fix --ext .js,.wpy --ignore-path .eslintignore ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yingyuk/weapp-template.git"
+  },
+  "keywords": ["weapp", "wepy"],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yingyuk/weapp-template/issues"
+  },
+  "homepage": "https://github.com/yingyuk/weapp-template#readme",
+  "dependencies": {
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
+    "wepy": "^1.7.0",
+    "wepy-async-function": "^1.4.4"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-export-extensions": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "commitizen": "^2.9.6",
+    "cross-env": "^5.1.1",
+    "cz-conventional-changelog": "^2.1.0",
+    "eslint": "^4.13.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-friendly-formatter": "^3.0.0",
+    "eslint-plugin-html": "^4.0.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-promise": "^3.6.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^6.0.0",
+    "wepy-compiler-babel": "^1.5.1",
+    "wepy-compiler-less": "^1.3.10",
+    "wepy-compiler-sass": "^1.3.7",
+    "wepy-eslint": "^1.5.3",
+    "wepy-plugin-autoprefixer": "^1.5.10",
+    "wepy-plugin-replace": "^1.5.10",
+    "wepy-plugin-uglifyjs": "^1.3.6"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "*.{js,wpy}": ["npm run lint", "git add"]
+  }
+}

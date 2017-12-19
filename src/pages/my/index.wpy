@@ -1,0 +1,35 @@
+<template>
+  <view class="container">
+    <view class="userinfo">
+      <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover" />
+      <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'test',
+    };
+    components = {};
+    data = {
+      userInfo: {
+        nickName: '加载中...',
+      },
+    };
+    computed = {};
+    methods = {};
+    events = {};
+    async fetchUserInfo() {
+      const { userInfo } = await this.$parent.getUserInfo();
+      this.userInfo = userInfo;
+      this.$apply();
+    }
+    onLoad() {
+      this.fetchUserInfo();
+    }
+  }
+</script>
