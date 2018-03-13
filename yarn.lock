@@ -3661,6 +3661,10 @@ wepy-plugin-uglifyjs@^1.3.6:
   dependencies:
     uglify-js "^2.7.5"
 
+wepy-redux@^1.5.5:
+  version "1.5.5"
+  resolved "http://registry.npm.taobao.org/wepy-redux/download/wepy-redux-1.5.5.tgz#a7a30892854231f6763aaa3f8d629fb3c6a7263d"
+
 wepy@^1.7.0:
   version "1.7.0"
   resolved "http://registry.npm.taobao.org/wepy/download/wepy-1.7.0.tgz#4066487d78a42dc3e2fa0c560b2877a9581eb23d"

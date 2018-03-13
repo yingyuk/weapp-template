@@ -1,6 +1,8 @@
 const path = require('path');
 
-const isProd = process.env.NODE_ENV === 'production';
+const { NODE_ENV, npm_package_name: NAME, npm_package_version: VERSION } = process.env;
+
+const isProd = NODE_ENV === 'production';
 
 module.exports = {
   wpyExt: '.wpy',
@@ -40,10 +42,20 @@ module.exports = {
     replace: [
       {
         filter: /utils\.js$/,
-        config: {
-          find: /__NODE_ENV__/g,
-          replace: process.env.NODE_ENV,
-        },
+        config: [
+          {
+            find: /__NODE_ENV__/g,
+            replace: NODE_ENV,
+          },
+          {
+            find: /__NAME__/g,
+            replace: NAME,
+          },
+          {
+            find: /__VERSION__/g,
+            replace: VERSION,
+          },
+        ],
       },
     ],
   },

@@ -1,6 +1,4 @@
-import { NODE_ENV } from '@/assets/scripts/utils';
-
-const isProd = NODE_ENV === 'production';
+import { isProd } from '@/assets/scripts/utils';
 
 const logger = isProd
   ? {

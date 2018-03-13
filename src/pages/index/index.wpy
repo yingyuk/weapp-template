@@ -1,39 +1,41 @@
 <template>
   <view class="container">
     <view class="userinfo">
-      <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover" />
-      <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
+      <image class="userinfo-avatar" src="{{ user.avatar }}" background-size="cover" />
+      <view class="userinfo-nickname">{{ user.nickname }}</view>
     </view>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy';
+  import { connect } from 'wepy-redux';
 
-  import { fetchUserInfo } from '@/store/user';
-  import connectMixin from '@/mixins/connect';
   import rootMixin from '@/mixins/root';
-  import connect from '@/assets/scripts/connect';
 
-  @connect(state => ({
-    userInfo: state.user.userInfo.userInfo,
-  }))
-  export default class Index extends wepy.page {
+  import { loginAPI } from '@/api/login';
+
+  @connect({
+    user(state) {
+      return state.wxUser.user;
+    },
+  })
+  export default class IndexPage extends wepy.page {
     config = {
-      navigationBarTitleText: 'test',
+      navigationBarTitleText: '首页',
     };
     components = {};
     data = {
-      userInfo: {
-        nickName: '加载中...',
-      },
     };
-    mixins = [connectMixin, rootMixin];
+    mixins = [rootMixin];
     computed = {};
     methods = {};
     events = {};
+    async initPage() {
+      await loginAPI();
+    }
     onLoad() {
-      this.store.dispatch(fetchUserInfo());
+      this.initPage();
     }
   }
 </script>

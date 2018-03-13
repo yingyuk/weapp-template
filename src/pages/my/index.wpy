@@ -1,35 +1,29 @@
 <template>
   <view class="container">
     <view class="userinfo">
-      <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover" />
-      <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
+      <image class="userinfo-avatar" src="{{ user.avatar }}" background-size="cover" />
+      <view class="userinfo-nickname">{{ user.nickname }}</view>
     </view>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy';
+  import { connect } from 'wepy-redux';
 
-  export default class Index extends wepy.page {
+  @connect({
+    user(state) {
+      return state.wxUser.user;
+    },
+  })
+  export default class MyPage extends wepy.page {
     config = {
-      navigationBarTitleText: 'test',
+      navigationBarTitleText: '我的',
     };
     components = {};
-    data = {
-      userInfo: {
-        nickName: '加载中...',
-      },
-    };
+    data = {};
     computed = {};
     methods = {};
     events = {};
-    async fetchUserInfo() {
-      const { userInfo } = await this.$parent.getUserInfo();
-      this.userInfo = userInfo;
-      this.$apply();
-    }
-    onLoad() {
-      this.fetchUserInfo();
-    }
   }
 </script>

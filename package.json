@@ -1,15 +1,17 @@
 {
   "name": "weapp-template",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "小程序模板",
   "main": "dist/app.js",
   "scripts": {
+    "start": "npm run dev",
     "bootstrap": "yarn || npm i",
-    "build": "npm run bootstrap && cross-env NODE_ENV=production wepy build --no-cache",
+    "build": "npm run bootstrap && npm run clean && cross-env NODE_ENV=production wepy build --no-cache",
     "cz": "git-cz",
-    "dev": "npm run bootstrap && cross-env NODE_ENV=development wepy build --watch",
+    "dev": "npm run bootstrap && npm run clean && cross-env NODE_ENV=development wepy build --watch",
     "precommit": "lint-staged",
-    "lint": "eslint --fix --ext .js,.wpy --ignore-path .eslintignore ."
+    "clean": "find ./dist -maxdepth 1 -not -name 'project.config.json' -not -name 'dist' | xargs rm -rf",
+    "lint": "eslint --fix --ext .js,.wpy --ignore-path .eslintignore"
   },
   "repository": {
     "type": "git",
@@ -26,7 +28,8 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "wepy": "^1.7.0",
-    "wepy-async-function": "^1.4.4"
+    "wepy-async-function": "^1.4.4",
+    "wepy-redux": "^1.5.5"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.1",
