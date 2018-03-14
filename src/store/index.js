@@ -23,6 +23,9 @@ export const sessionKey = `${prifix}session_key`;
 // 用户 openid
 export const openidKey = `${prifix}openid`;
 
+// 用户 unionid
+export const unionidKey = `${prifix}unionid`;
+
 // eslint-disable-next-line
 export const set = (key = '', value = '', expirationDay = 0) => {
   // eslint-disable-next-line

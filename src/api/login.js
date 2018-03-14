@@ -1,7 +1,7 @@
 import wepy from 'wepy';
 import { getStore } from 'wepy-redux';
 
-import store, { tokenKey, upTokenKey, userKey /* , sessionKey, openidKey */ } from '@/store';
+import store, { tokenKey, upTokenKey, userKey, sessionKey, openidKey, unionidKey } from '@/store';
 import { wxLogin, wxGetUserInfo, SAVE_USERINFO } from '@/redux/wxUser';
 
 const reduxStore = getStore();
@@ -13,36 +13,40 @@ const ONE_WEEK = 1;
  * 用 code 获取用户 session_key, openid
  */
 export const authAPI = async () => {
-  const { wxUser = {} } = reduxStore;
-  const isFetched = wxUser.session_key && wxUser.openid;
+  const { wxUser = {} } = reduxStore.getState();
+  const isFetched = wxUser.session_key && wxUser.openid; // 暂时不判断 unionid
   if (isFetched) {
     return wxUser;
   }
-  // 不保存 session_key, openid 到本地
-  // const [localSession, localOpenid] = [store.get(sessionKey), store.get(openidKey)];
-  // const isSaved = localSession && localOpenid;
-  // if (isSaved) {
-  //   return reduxStore.dispatch({
-  //     type: SAVE_USERINFO,
-  //     payload: { session_key: localSession, openid: localOpenid },
-  //   });
-  // }
+  const [localSession, localOpenid, localUnionid] = [
+    store.get(sessionKey),
+    store.get(openidKey),
+    store.get(unionidKey),
+  ];
+  const isSaved = localSession && localOpenid; // 暂时不判断 unionid
+  if (isSaved) {
+    return reduxStore.dispatch({
+      type: SAVE_USERINFO,
+      payload: { session_key: localSession, openid: localOpenid, unionid: localUnionid },
+    });
+  }
   const { code } = await reduxStore.dispatch(wxLogin());
   // https://mp.weixin.qq.com/debug/wxadoc/dev/api/api-login.html#wxchecksessionobject
   // code 有效期为 五分钟
-  const { data: { session_key, openid } } = await wepy.request({
+  const { data: { session_key, openid, unionid } } = await wepy.request({
     method: 'POST',
     url: '/api/screen/v1/wechat/auth',
     data: { code },
   });
   reduxStore.dispatch({
     type: SAVE_USERINFO,
-    payload: { session_key, openid },
+    payload: { session_key, openid, unionid },
   });
-  // // 保存信息 一周
-  // store.set(sessionKey, session_key, ONE_WEEK);
-  // store.set(openidKey, openid, ONE_WEEK);
-  return { session_key, openid };
+  // 保存信息 一周
+  store.set(sessionKey, session_key, ONE_WEEK);
+  store.set(openidKey, openid, ONE_WEEK);
+  store.set(unionidKey, unionid, ONE_WEEK);
+  return { session_key, openid, unionid };
 };
 
 /**
@@ -52,16 +56,12 @@ export const authAPI = async () => {
  * return { token, up_token, user };
  */
 export const loginAPI = async () => {
-  const { wxUser = {} } = reduxStore;
+  const { wxUser = {} } = reduxStore.getState();
   const isFetched = wxUser.token && wxUser.up_token;
   if (isFetched) {
     return wxUser;
   }
-  const [localToken, localUpToken, localUser] = [
-    store.get(tokenKey),
-    store.get(upTokenKey),
-    store.get(userKey),
-  ];
+  const [localToken, localUpToken, localUser] = [store.get(tokenKey), store.get(upTokenKey), store.get(userKey)];
   const isSaved = localToken && localUpToken && localUser;
   if (isSaved) {
     return reduxStore.dispatch({

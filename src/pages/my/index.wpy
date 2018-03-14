@@ -11,19 +11,29 @@
   import wepy from 'wepy';
   import { connect } from 'wepy-redux';
 
+  import rootMixin from '@/mixins/root';
+  import { loginAPI } from '@/api/login';
+
   @connect({
     user(state) {
       return state.wxUser.user;
     },
   })
   export default class MyPage extends wepy.page {
+    mixins = [rootMixin];
     config = {
       navigationBarTitleText: '我的',
     };
-    components = {};
     data = {};
     computed = {};
     methods = {};
     events = {};
+    async initPage() {
+      await loginAPI();
+    }
+    onLoad() {
+      this.initPage();
+    }
+    components = {};
   }
 </script>

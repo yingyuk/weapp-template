@@ -34,5 +34,6 @@ module.exports = {
     camelcase: WARNING,
     'no-param-reassign': WARNING,
     'no-const-assign': OFF,
+    'max-len': OFF,
   },
 };

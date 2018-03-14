@@ -4,8 +4,12 @@
 
 ## 0.0.2 (2018-03-13)
 
-* 用户登录
+* feat: user login
 
-* 用户个人信息
+* feat: get user info
 
-* redux 接入
+* feat: add redux
+
+## 0.0.3 (2018-03-14)
+
+* fix: user login, get user info

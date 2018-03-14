@@ -21,13 +21,11 @@
     },
   })
   export default class IndexPage extends wepy.page {
+    mixins = [rootMixin];
     config = {
       navigationBarTitleText: '首页',
     };
-    components = {};
-    data = {
-    };
-    mixins = [rootMixin];
+    data = {};
     computed = {};
     methods = {};
     events = {};
@@ -37,5 +35,6 @@
     onLoad() {
       this.initPage();
     }
+    components = {};
   }
 </script>
