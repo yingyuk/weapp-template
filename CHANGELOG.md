@@ -13,3 +13,7 @@
 ## 0.0.3 (2018-03-14)
 
 * fix: user login, get user info
+
+## 0.0.4 (2018-03-14)
+
+* feat: tools; mutil loading

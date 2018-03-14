@@ -5,6 +5,7 @@ import errorParse from '@/request/errorParse';
 import logger from '@/plugins/logger';
 
 import { DOMAIN } from '@/assets/scripts/utils';
+import { myLoading } from '@/sdk/react/feedback';
 
 export default self => {
   if (!self) {
@@ -30,7 +31,7 @@ export default self => {
       const { loadingTitle = '加载中...', showErrMsg = true } = option;
       config = { loadingTitle, showErrMsg };
       if (loadingTitle) {
-        wx.showLoading({ title: loadingTitle });
+        myLoading.show({ title: loadingTitle });
       }
       // 必须返回OBJECT参数对象，否则无法发送请求到服务端
       return option;
@@ -73,7 +74,7 @@ export default self => {
     complete(/* response */) {
       const { loadingTitle } = config;
       if (loadingTitle) {
-        wx.hideLoading();
+        myLoading.hide();
       }
     },
   });

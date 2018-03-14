@@ -1,6 +1,6 @@
 {
   "name": "weapp-template",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "小程序模板",
   "main": "dist/app.js",
   "scripts": {
